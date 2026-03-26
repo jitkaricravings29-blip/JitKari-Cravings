@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JitKari Cravings</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body {font-family:'Poppins',sans-serif;margin:0;background:linear-gradient(135deg,#ffecd2,#fcb69f);} 
+header {background:linear-gradient(45deg,#ff4e50,#f9d423);color:#fff;text-align:center;padding:20px;} 
+.section {padding:30px;max-width:1200px;margin:auto;} 
+.menu {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;} 
+.card {background:#fff;border-radius:15px;overflow:hidden;box-shadow:0 5px 15px rgba(0,0,0,0.2);} 
+.card img {width:100%;height:150px;object-fit:cover;} 
+.card-content {padding:10px;} 
+button {padding:8px 12px;border:none;background:#ff4e50;color:#fff;border-radius:8px;cursor:pointer;} 
+.cart {position:fixed;right:0;top:0;width:300px;height:100%;background:#fff;box-shadow:-5px 0 10px rgba(0,0,0,0.2);padding:15px;overflow:auto;} 
+</style>
+</head>
+
+<body>
+<header>
+<h1>🔥 JitKari Cravings 🔥</h1>
+<p>Order Your Favorite Food Instantly</p>
+</header>
+
+<div class="section">
+<h2>Menu</h2>
+<div class="menu" id="menu"></div>
+</div>
+
+<div class="cart">
+<h3>🛒 Cart</h3>
+<ul id="cartItems"></ul>
+<h4 id="total">Total: ₹0</h4>
+<button onclick="placeOrder()">Order on WhatsApp</button>
+</div>
+
+<script>
+const items = [
+{name:'Momos',price:80,img:'https://images.unsplash.com/photo-1604908176997-43106c97f6b9'},
+{name:'Pav Bhaji',price:120,img:'https://images.unsplash.com/photo-1601050690597-df0568f70950'},
+{name:'Misal Pav',price:100,img:'https://images.unsplash.com/photo-1604909053192-37b5b3c1aef1'},
+{name:'Mojito',price:90,img:'https://images.unsplash.com/photo-1625944193568-5a5b8dcbe3fa'}
+];
+
+let cart=[];
+
+function renderMenu(){
+const menu=document.getElementById('menu');
+items.forEach((item,i)=>{
+menu.innerHTML+=`<div class="card">
+<img src="${item.img}">
+<div class="card-content">
+<h3>${item.name}</h3>
+<p>₹${item.price}</p>
+<button onclick="addToCart(${i})">Add</button>
+</div></div>`;
+});
+}
+
+function addToCart(i){
+cart.push(items[i]);
+updateCart();
+}
+
+function updateCart(){
+const list=document.getElementById('cartItems');
+list.innerHTML='';
+let total=0;
+cart.forEach(item=>{
+total+=item.price;
+list.innerHTML+=`<li>${item.name} - ₹${item.price}</li>`;
+});
+document.getElementById('total').innerText='Total: ₹'+total;
+}
+
+function placeOrder(){
+let msg='Order:%0A';
+cart.forEach(i=>{msg+=i.name+' - ₹'+i.price+'%0A';});
+window.open(`https://wa.me/919324647744?text=${msg}`,'_blank');
+}
+
+renderMenu();
+</script>
+
+</body>
+</html>
